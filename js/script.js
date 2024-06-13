@@ -13,6 +13,28 @@ class Bd {
 		localStorage.setItem(id, JSON.stringify(despesa));
 		localStorage.setItem("id", id);
 	}
+
+	recuperarTodosRegistros() {
+		// array de despesas
+		let despesas = Array();
+
+		let id = localStorage.getItem("id");
+
+		// Recupera todas as despesas no localStorage
+		for (let i = 1; i <= id; i++) {
+			// Recuperar a despesa
+			let despesa = JSON.parse(localStorage.getItem(i));
+
+			// Pulando despesas vazias/indices vazios
+			if (despesa == null) {
+				continue; // Pula para a próxima iteração do laço
+			}
+
+			despesas.push(despesa);
+		}
+
+		return despesas;
+	}
 }
 let bd = new Bd();
 
@@ -63,8 +85,7 @@ function cadastrarDespesa() {
 		$("#modal_botao").addClass("btn-success");
 
 		$("#modalRegistraDespesa").modal("show");
-	}
-	else {
+	} else {
 		$("#modal_titulo_div").addClass("modal-header text-danger");
 		$("#modal_titulo").text("Erro na inclusão do registro");
 		$("#modal_conteudo").text(
@@ -75,4 +96,9 @@ function cadastrarDespesa() {
 
 		$("#modalRegistraDespesa").modal("show");
 	}
+}
+
+function carregaListaDespesas() {
+	let despesa = Array();
+	despesas = bd.recuperarTodosRegistros();
 }
